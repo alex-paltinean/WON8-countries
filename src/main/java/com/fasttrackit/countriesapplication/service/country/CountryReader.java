@@ -1,6 +1,6 @@
-package com.fasttrackit.countriesapplication.service;
+package com.fasttrackit.countriesapplication.service.country;
 
-import com.fasttrackit.countriesapplication.model.Country;
+import com.fasttrackit.countriesapplication.model.country.Country;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 

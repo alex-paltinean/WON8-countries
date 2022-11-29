@@ -1,7 +1,7 @@
-package com.fasttrackit.countriesapplication.controller;
+package com.fasttrackit.countriesapplication.controller.country;
 
-import com.fasttrackit.countriesapplication.model.Country;
-import com.fasttrackit.countriesapplication.service.CountryService;
+import com.fasttrackit.countriesapplication.model.country.Country;
+import com.fasttrackit.countriesapplication.service.country.CountryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

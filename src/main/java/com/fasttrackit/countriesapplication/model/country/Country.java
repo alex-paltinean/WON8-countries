@@ -1,24 +1,35 @@
-package com.fasttrackit.countriesapplication.model;
+package com.fasttrackit.countriesapplication.model.country;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
 
 @AllArgsConstructor
 @Getter
 @Setter
+@Entity
+@NoArgsConstructor
 public class Country {
     //name|capital|population|area|continent|neighbour1~neighbour2
+    @Id
+    @GeneratedValue
     private long id;
+    @Column
     private String name;
+    @Column
     private String capital;
+    @Column
     private long population;
+    @Column
     private int area;
+    @Column
     private String continent;
+    @Transient
     private List<String> neighbours;
 
     @Override
