@@ -1,6 +1,7 @@
 package com.fasttrackit.countriesapplication.service.country;
 
 import com.fasttrackit.countriesapplication.exception.ResourceNotFoundException;
+import com.fasttrackit.countriesapplication.model.country.City;
 import com.fasttrackit.countriesapplication.model.country.Country;
 import org.springframework.stereotype.Service;
 
@@ -55,7 +56,32 @@ public class CountryService {
         countryToBeUpdated.setName(country.getName());
         countryToBeUpdated.setNeighbours(country.getNeighbours());
         countryToBeUpdated.setPopulation(country.getPopulation());
-        return countryToBeUpdated;
+        return countryRepository.save(countryToBeUpdated);
     }
 
+    public List<Country> getCountriesFiltered(String continent, Long minPopulation, Long maxPopulation) {
+        return countryRepository.getByContinentAndMinPopulationAndMaxPopulation(continent, minPopulation, maxPopulation);
+    }
+
+    public Country patch(long id, String capital, long diffPopulation) {
+        Country countryToBeUpdated = getById((int) id);
+        countryToBeUpdated.setCapital(new City(capital));
+        countryToBeUpdated.setPopulation(countryToBeUpdated.getPopulation() + diffPopulation);
+        return countryRepository.save(countryToBeUpdated);
+    }
+
+    public Country addCityToCountry(int id, City city) {
+        Country country = getById(id);
+        city.setCountry(country);
+        country.getCities().add(city);
+        return countryRepository.save(country);
+    }
+
+    public Country addNeighbourToCountry(int id, int neighbourId) {
+        Country country = getById(id);
+        Country neighbour = getById(neighbourId);
+        country.getNeighboursCountries().add(neighbour);
+        neighbour.getNeighboursCountries().add(country);
+        return countryRepository.save(country);
+    }
 }

@@ -1,5 +1,8 @@
 package com.fasttrackit.countriesapplication.controller.country;
 
+import com.fasttrackit.countriesapplication.controller.country.dto.CountryOverviewDTO;
+import com.fasttrackit.countriesapplication.controller.country.dto.PatchCountryRequest;
+import com.fasttrackit.countriesapplication.model.country.City;
 import com.fasttrackit.countriesapplication.model.country.Country;
 import com.fasttrackit.countriesapplication.service.country.CountryService;
 import lombok.RequiredArgsConstructor;
@@ -14,19 +17,22 @@ public class CountryController {
 
     private final CountryService countryService;
 
-    @GetMapping // GET http://host:port/countries?continent={continent}&sortBy=continent&sortDirection=DESC&limit=10&offset=30
-    public List<Country> getAll(@RequestParam(required = false) String continent) {
+    @GetMapping
+    // GET http://host:port/countries?continent={continent}&sortBy=continent&sortDirection=DESC&limit=10&offset=30
+    public List<CountryOverviewDTO> getAll(@RequestParam(required = false) String continent,
+                                           @RequestParam(required = false) Long minPopulation,
+                                           @RequestParam(required = false) Long maxPopulation) {
         System.out.println("Requested all countries");
-        if (continent != null) {
-            return countryService.getByContinent(continent);
-        } else {
-            return countryService.getAllCountries();
-        }
+        return countryService.getCountriesFiltered(continent, minPopulation, maxPopulation).stream()
+                .map(country -> new CountryOverviewDTO(country.getId(), country.getName())).toList();
     }
 
     @GetMapping("{id}") // GET http://host:port/countries/3
     public Country getById(@PathVariable int id) {
-        return countryService.getById(id);
+        Country country = countryService.getById(id);
+        System.out.println("Before calling for cities");
+        country.getCities().stream().count();
+        return country;
     }
 
     @DeleteMapping("{id}") // DELETE http://host:port/countries/3
@@ -42,5 +48,20 @@ public class CountryController {
     @PutMapping("{id}")
     public Country update(@PathVariable int id, @RequestBody Country country) {
         return countryService.update(id, country);
+    }
+
+    @PatchMapping("{id}")
+    public Country patch(@PathVariable long id, @RequestBody PatchCountryRequest request) {
+        return countryService.patch(id, request.capital(), request.diffPopulation());
+    }
+
+    @PostMapping("{id}/cities")
+    Country addCityToCountry(@PathVariable int id, @RequestBody City city){
+        return countryService.addCityToCountry(id, city);
+    }
+
+    @PostMapping("{id}/neighbours/{neighbourId}")
+    Country addNeighbourToCountry(@PathVariable int id, @PathVariable int neighbourId){
+        return countryService.addNeighbourToCountry(id, neighbourId);
     }
 }

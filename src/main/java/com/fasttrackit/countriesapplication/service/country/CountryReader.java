@@ -1,5 +1,6 @@
 package com.fasttrackit.countriesapplication.service.country;
 
+import com.fasttrackit.countriesapplication.model.country.City;
 import com.fasttrackit.countriesapplication.model.country.Country;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
@@ -33,7 +34,7 @@ public class CountryReader {
 
     private Country lineToCountry(String line) {
         String[] countryParts = line.split("\\|");
-        return new Country(countryId++, countryParts[0], countryParts[1], Long.parseLong(countryParts[2]),
+        return new Country(countryId++, countryParts[0], new City(countryParts[1]), Long.parseLong(countryParts[2]),
                 Integer.parseInt(countryParts[3]), countryParts[4],
                 countryParts.length > 5 ? parseNeighbours(countryParts[5]) : List.of());
     }
