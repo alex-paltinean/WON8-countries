@@ -59,8 +59,8 @@ public class CountryService {
         return countryRepository.save(countryToBeUpdated);
     }
 
-    public List<Country> getCountriesFiltered(String continent, Long minPopulation, Long maxPopulation) {
-        return countryRepository.getByContinentAndMinPopulationAndMaxPopulation(continent, minPopulation, maxPopulation);
+    public List<Country> getCountriesFiltered(String continent, Long minPopulation, Long maxPopulation, String searchText) {
+        return countryRepository.getByContinentAndMinPopulationAndMaxPopulation(continent, minPopulation, maxPopulation, searchText + "%");
     }
 
     public Country patch(long id, String capital, long diffPopulation) {

@@ -21,9 +21,10 @@ public class CountryController {
     // GET http://host:port/countries?continent={continent}&sortBy=continent&sortDirection=DESC&limit=10&offset=30
     public List<CountryOverviewDTO> getAll(@RequestParam(required = false) String continent,
                                            @RequestParam(required = false) Long minPopulation,
-                                           @RequestParam(required = false) Long maxPopulation) {
+                                           @RequestParam(required = false) Long maxPopulation,
+                                           @RequestParam(required = false) String searchText) {
         System.out.println("Requested all countries");
-        return countryService.getCountriesFiltered(continent, minPopulation, maxPopulation).stream()
+        return countryService.getCountriesFiltered(continent, minPopulation, maxPopulation, searchText).stream()
                 .map(country -> new CountryOverviewDTO(country.getId(), country.getName())).toList();
     }
 
