@@ -60,7 +60,8 @@ public class CountryService {
     }
 
     public List<Country> getCountriesFiltered(String continent, Long minPopulation, Long maxPopulation, String searchText) {
-        return countryRepository.getByContinentAndMinPopulationAndMaxPopulation(continent, minPopulation, maxPopulation, searchText + "%");
+        return countryRepository.getByContinentAndMinPopulationAndMaxPopulation(continent, minPopulation, maxPopulation,
+                searchText == null ? null : searchText.toLowerCase() + "%");
     }
 
     public Country patch(long id, String capital, long diffPopulation) {

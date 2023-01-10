@@ -35,7 +35,7 @@ public class Country {
     private String name;
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private City capital;
-    @OneToMany(mappedBy = "country", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "country", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     private List<City> cities;
     @Column
     private long population;
